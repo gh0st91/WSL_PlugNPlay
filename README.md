@@ -12,9 +12,9 @@ I am extremely lazy, so instead of having to run the commands to attach and deta
 ## Usage
 
 1. Download the latest WSL_PlugNPlay.exe or .ps1 from the [Releases](https://github.com/gh0st91/WSL_PlugNPlay/releases) page.
-2. Have your WSL distro up and running before opening WSL_PlugNPlay.exe or WSL_PlugNPlay.ps1
-	- If you choose to run the powershell script, run it from an admin powershell prompt.
-	- If you choose to run the exe, congratulations! Everything is taken care of. Just click 'Yes' on the UAC prompt.
+2. Have your WSL distro up and running before opening either the .exe or .ps1
+	- If you chose the powershell script, run it from an admin powershell prompt.
+	- If you chose the exe, congratulations! Everything is taken care of. Just click 'Yes' on the UAC prompt.
 4. A GUI window will appear, displaying a list of all attached USB devices.
 5. Check the box next to the devices you want to attach or detach.
 7. The selected USB devices will be instantly attached or detached, depending on what was selected.
