@@ -1,7 +1,8 @@
 # WSL PlugNPlay
 
-I am extremely lazy, so instead of having to run the commands to attach and detach devices from my Kali WSL install, I built this script. Hope it's helpful to someone. Effectively, the script allows you to easily manage USB devices for WSL in a simple and intuitive graphical interface. When devices are attached/detached, the list will update itself. All of this is done in real time! 
+I am extremely lazy, so instead of having to run the commands to attach and detach devices from my Kali WSL install, I built this script. Hope it's helpful to someone. Effectively, the script allows you to easily manage USB devices for WSL in a simple and intuitive graphical interface. All of this is done in real time!
 I have used ps2exe to produce an executable file, which can be found under [Releases](https://github.com/gh0st91/WSL_PlugNPlay/releases).
+NOTE: READ THE USAGE AND REQUIREMENTS
 
 ## Requirements
 
@@ -13,9 +14,10 @@ I have used ps2exe to produce an executable file, which can be found under [Rele
 ## Usage
 
 1. Download the latest WSL_PlugNPlay.exe or .ps1 from the [Releases](https://github.com/gh0st91/WSL_PlugNPlay/releases) page.
-2. Have your WSL distro up and running before opening either the .exe or .ps1
+2. Have USB devices connected and your WSL distro up and running before opening either the .exe or .ps1
 	- If you chose the powershell script, run it from an admin powershell prompt.
 	- If you chose the exe, congratulations! Everything is taken care of. Just click 'Yes' on the UAC prompt.
+	- NOTE: IF YOU CONNECT USB DEVICE(S) AFTER THE WINDOW IS OPEN, RESTART THE PROGRAM TO HAVE THOSE DEVICES APPEAR IN THE LIST.
 4. A GUI window will appear, displaying a list of all attached USB devices.
 5. Check the box next to the devices you want to attach or detach.
 7. The selected USB devices will be instantly attached or detached, depending on what was selected.
