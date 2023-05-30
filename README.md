@@ -4,7 +4,7 @@ I am extremely lazy, so instead of having to run the commands to attach and deta
 
 ## Requirements
 
-- Windows 10 system running WSL2 and a distro (Kali, Debian, Ubuntu, etc.)
+- Windows 10 or later running WSL2 and a distro (Kali, Debian, Ubuntu, etc.)
 - `usbipd.exe` from [usbipd-win](https://github.com/dorssel/usbipd-win/releases)
 - PowerShell v5.1 or later (comes pre-installed on Windows 10+ systems)
 - Administrator Privileges. (required for accessing USB devices)
