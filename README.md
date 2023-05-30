@@ -11,7 +11,7 @@ I am extremely lazy, so instead of having to run the commands to attach and deta
 
 ## Usage
 
-1. Download the latest exe or ps1 from the [Releases](https://github.com/username/repo-name/releases) page.
+1. Download the latest WSL_PlugNPlay.exe or .ps1 from the [Releases](https://github.com/username/repo-name/releases) page.
 2. Have your WSL distro up and running before opening WSL_PlugNPlay.exe or WSL_PlugNPlay.ps1
 	- If you choose to run the powershell script, run it from an admin powershell prompt.
 	- If you choose to run the exe, congratulations! Everything is taken care of. Just click 'Yes' on the UAC prompt.
