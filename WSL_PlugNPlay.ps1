@@ -1,4 +1,4 @@
-﻿# Get script file path and name
+# Get script file path and name
 $currentExePath = [System.Diagnostics.Process]::GetCurrentProcess().MainModule.FileName
 $currentPs1Path = $MyInvocation.MyCommand.Path
 
@@ -33,7 +33,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 Add-Type -AssemblyName System.Windows.Forms
 
 # Use usbipd to get a list of all externally attached USB devices
-$usbDevices = & wsl.exe usbipd.exe wsl list | Select-String -Pattern "^([\d\w-]+)\s+([\d\w:]+)\s+(.+)\s+Not attached$" | ForEach-Object {
+$global:usbDevices = & wsl.exe usbipd.exe wsl list | Select-String -Pattern "^([\d\w-]+)\s+([\d\w:]+)\s+(.+)\s+Not attached$" | ForEach-Object {
   $busId = $_.Matches.Groups[1].Value
   $vidPid = $_.Matches.Groups[2].Value
   $deviceName = $_.Matches.Groups[3].Value.Trim()
@@ -47,16 +47,43 @@ $usbDevices = & wsl.exe usbipd.exe wsl list | Select-String -Pattern "^([\d\w-]+
 
 # Check if any devices are attached
 function AreAnyDevicesAttached {
-  return ($usbDevices | Where-Object { $device.Attach -eq $true }).Count -gt 0
+  return ($global:usbDevices | Where-Object { $device.Attach -eq $true }).Count -gt 0
 }
 
 # Detach all devices on close
 function DetachAllDevicesBeforeClosing {
-  $attachedDevices = $usbDevices | Where-Object { $_.Attach -eq $true }
+  $attachedDevices = $global:usbDevices | Where-Object { $_.Attach -eq $true }
   foreach ($device in $attachedDevices) {
     & wsl.exe usbipd.exe wsl detach --busid $device.BusId
     $device.Attach = $false
   }
+}
+
+# Function to update the USB devices and refresh the Checked ListBox
+function UpdateUSBDevices {
+  # Get updated USB devices list
+  $global:usbDevices = & wsl.exe usbipd.exe wsl list | Select-String -Pattern "^([\d\w-]+)\s+([\d\w:]+)\s+(.+)\s+Not attached$" | ForEach-Object {
+    $busId = $_.Matches.Groups[1].Value
+    $vidPid = $_.Matches.Groups[2].Value
+    $deviceName = $_.Matches.Groups[3].Value.Trim()
+    [PSCustomObject]@{
+      BusId = $busId
+      VIDPID = $vidPid
+      DeviceName = $deviceName
+      Attach = $false
+    }
+  }
+
+  # Clear and add items to the Checked ListBox
+  $checkedListBox.SuspendLayout()
+  $checkedListBox.Items.Clear()
+  
+  foreach ($device in $global:usbDevices) {
+    $text = "$($device.DeviceName) ($($device.VIDPID)) [$($device.BusId)]"
+    $checkedListBox.Items.Add($text, $device.Attach) | Out-Null
+  }
+
+  $checkedListBox.ResumeLayout()
 }
 
 # Display list of all attached USB devices with checkboxes
@@ -73,7 +100,7 @@ $checkedListBox.Font = New-Object System.Drawing.Font("Consolas", 10) # Adjust t
 $form.Controls.Add($checkedListBox)
 $form.Add_Shown({$form.Activate()})
 
-foreach ($device in $usbDevices) {
+foreach ($device in $global:usbDevices) {
   $text = "$($device.DeviceName) ($($device.VIDPID)) [$($device.BusId)]"
   $checkedListBox.Items.Add($text, $device.Attach) | Out-Null
 }
@@ -83,14 +110,14 @@ $checkedListBox.Add_MouseClick({
   $clickedIndex = $checkedListBox.IndexFromPoint($_.Location)
   if ($clickedIndex -ge 0 -and $clickedIndex -lt $checkedListBox.Items.Count) {
     $checkBoxState = $checkedListBox.GetItemChecked($clickedIndex)
-    $device = $usbDevices[$clickedIndex]
+    $device = $global:usbDevices[$clickedIndex]
     if (-not $checkBoxState) {
       & wsl.exe usbipd.exe wsl attach --busid $device.BusId
     } else {
       & wsl.exe usbipd.exe wsl detach --busid $device.BusId
     }
-    # Update the device.Attach status in the $usbDevices array
-    $usbDevices[$clickedIndex].Attach = -not $checkBoxState
+    # Update the device.Attach status in the $global:usbDevices array
+    $global:usbDevices[$clickedIndex].Attach = -not $checkBoxState
   }
 })
 
@@ -107,6 +134,12 @@ $form.Add_FormClosing({
     }
   }
 })
+
+# Add a timer to periodically refresh the list of USB devices
+$timer = New-Object System.Windows.Forms.Timer
+$timer.Interval = 1000 # Set the timer interval to refresh the list (in milliseconds)
+$timer.Add_Tick({ UpdateUSBDevices })
+$timer.Start()
 
 $form.ShowDialog() | Out-Null
 $form.Dispose()
