@@ -1,6 +1,7 @@
 # WSL PlugNPlay
 
-I am extremely lazy, so instead of having to run the commands to attach and detach devices from my Kali WSL install, I built this script. Hope it's helpful to someone. Effectively, the script allows you to easily manage USB devices for WSL in a simple and intuitive graphical interface. I have used ps2exe to produce an executable file, which can be found under [Releases](https://github.com/gh0st91/WSL_PlugNPlay/releases).
+I am extremely lazy, so instead of having to run the commands to attach and detach devices from my Kali WSL install, I built this script. Hope it's helpful to someone. Effectively, the script allows you to easily manage USB devices for WSL in a simple and intuitive graphical interface. When devices are attached/detached, the list will update itself. All of this is done in real time! 
+I have used ps2exe to produce an executable file, which can be found under [Releases](https://github.com/gh0st91/WSL_PlugNPlay/releases).
 
 ## Requirements
 
