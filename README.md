@@ -37,6 +37,5 @@ This script is provided as-is, without any warranty, and the author is not respo
 
 This is my final solution, and there likely will not be any significant changes. Still, feel free to submit a pull request if you see something that can be improved. Note: there is one TODO. If anyone can figure it out, major brownie points!
 
-`Would you fork me?
-
-I'd fork me. I'd fork me so hard...`
+`Would you fork me?`
+`I'd fork me. I'd fork me so hard...`
